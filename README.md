@@ -1,7 +1,7 @@
 
-AIM	: Predictive analysis of House Price using House Features in a locality using Machine Learning.
+# AIM	: Predictive analysis of House Price using House Features in a locality using Machine Learning.
 	: ( House price prediction.)
-Author	: predict11
+	
 
 # Introduction
 It very Hard to predict the price of the house for machine
