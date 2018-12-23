@@ -1,14 +1,14 @@
 
-AIM	: Predictive analysis of House Price using House Features in a locality using Machine Learning.
+## AIM	: Predictive analysis of House Price using House Features in a locality using Machine Learning.
 	: ( House price prediction.)
-Author	: predict11
+### Author	: predict11
 
-# Introduction
+### Introduction
 It very Hard to predict the price of the house for machine
 problem can be solved using the Neural Network
 
 
-# Keywords 
+### Keywords 
 Keywords : Machine Learning, Data Analysis, Satastics, DNN, Numpy, Pandas.
 
 ## Tools
@@ -42,9 +42,8 @@ Procedure :
 		Output is shown in single floating point Number as a Price of house
 
 
-## Evaluation Plan
+# Evaluation Plan
 
-###
 We solved problems at occured at each step to improve accuracy.
 
 As this is a Regression problem it is difficult to measure performance of Regressor  model than the Classification One.
@@ -53,7 +52,7 @@ So we have mesure the performance of model using :
 	Varience score, Mean Square Error, Mean Absolute Error, Median Absolute Error and by plotting Graphs...
 
 
-###
+### key Metrics :
 Variance—
 	In terms of linear regression, variance Is a measure of how far observed
 	values differ from the average of predicted values.
@@ -76,9 +75,9 @@ Absolute errorse(AE)—
 This are preety large Numbers because price of house are alwayes in lacs and crores
 
 
-### Optimisation :
+# Optimisation :
 
-# Parameter Tuning
+### Parameter Tuning
 We have tued the Parameters from the 
 
 	Train-Test split from 60-40 ... 80-20 and get the best accuracy at 80-20
