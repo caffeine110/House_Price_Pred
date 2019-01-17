@@ -63,38 +63,54 @@ def get_Model_Summary(R_model):
 
 
 
-def make_Predictions(R_model,X_test):
-    Y_pred = R_model.predict(X_test)
+#########################################################################################
+### Save model Weights
+def save_Model(R_model):    
+    SaveFileName = 'SavedModel/Saved_model_weights.h5'
+    Saved_model = R_model.save_weights(SaveFileName)
+    type(R_model)
+
+
+
+def make_Predictions(Saved_model,X_test):
+    Y_pred = Saved_model.predict(X_test)
     print(Y_pred)
     return Y_pred
 
 
 
-
-#########################################################################################
-### Predictions plot graph
-### Accuracy graph
-def plot_Accuracy_Graph(Y_test, Y_pred):
-    y_original = Y_test[50:100]
-    y_predicted = Y_pred[50:100]
+# list all data in history
+# summarize history for loss
+def plot_Loss(history):
+    ### importing matplotlib
+    import matplotlib.pyplot as plt
+        
+    #dict_keys(['val_loss', 'val_mean_absolute_error', 'loss', 'mean_absolute_error'])
+    plt.plot(history.history['loss'])
+    plt.plot(history.history['val_loss'])
+    plt.title('model loss')
+    plt.ylabel('loss')
+    plt.xlabel('epoch')
+    plt.legend(['train', 'test'], loc='upper left')
+    plt.show()
     
+
+# summarize history for accuracy
+def plot_Accuracy(history):
     ### importing matplotlib
     import matplotlib.pyplot as plt
     
-    plt.plot(y_original, 'r')
-    plt.plot(y_predicted, 'b')
-    
+    #dict_keys(['val_loss', 'val_mean_absolute_error', 'loss', 'mean_absolute_error'])
+    print(history.history.keys())
+    plt.plot(history.history['mean_absolute_error'])
+    plt.plot(history.history['val_mean_absolute_error'])
+    plt.title('model accuracy')
+    plt.ylabel('accuracy')
+    plt.xlabel('epoch')
+    plt.legend(['train', 'test'], loc='upper left')
     plt.show()
 
 
-
-#########################################################################################
-### Accure Scores
-def accuracy_Score(Y_test, Y_pred):
-    import sklearn.metrics
-    ### Calculating the Varience Score
-    res1 = sklearn.metrics.explained_variance_score(Y_test, Y_pred)
-    print("Varience Score is : ",res1)
 
 
 
@@ -115,38 +131,31 @@ def main():
     ### Building the Model
     R_model = build_Model(X_train, X_test, Y_train, Y_test)
 
-
-    ### Saving the model
+    
+    ### Saving the checkpoints
     checkpoint_name = 'checkpoints/Weights-{epoch:03d}--{val_loss:.5f}.hdf5' 
     checkpoint = ModelCheckpoint(checkpoint_name, monitor='val_loss', verbose = 1, save_best_only = True, mode ='auto')
     callbacks_list = [checkpoint]
-    
-        
+            
     ### training the model    
-    R_model.fit(X_train, Y_train, epochs=1, batch_size=16, validation_split = 0.2, callbacks=callbacks_list)
+    history = R_model.fit(X_train, Y_train, epochs=20, batch_size=8, validation_split = 0.2, callbacks=callbacks_list)
 
-
-    #########################################################################################
-    ### Save model Weights
-    """
-    SaveFileName = 'SavedModel/Saved_model_weights.h5'
-    Saved_model = R_model.save_weights(SaveFileName)
-    #type(R_model)
+    print(type(history))
+    print(history.history.keys())
+    print(history.history.values())
     
-    weights_file = 'checkpoints/Weights-170--67364.26215.hdf5' # choose the best checkpoint 
-    
-    ### Load the saved Weights
-    #Saved_model = keras.engine.sequential.Sequential
-    Saved_model.load_weights(weights_file) # load it
-    Saved_model.compile(loss='mean_absolute_error', optimizer='adam', metrics=['mean_absolute_error'])
-    """
 
-    Y_pred = make_Predictions(R_model, X_test)
+    ### save the model
+    save_Model(R_model)
 
-    plot_Accuracy_Graph(Y_test, Y_pred)
-    accuracy_Score(Y_test, Y_pred)
 
-    print("Pogram Exicuted Succesfully")
+    plot_Accuracy(history)
+    plot_Loss(history)
+
+
+    print("Program Exicuted Succesfully")
+
+
 
 
 if __name__ == "__main__":
